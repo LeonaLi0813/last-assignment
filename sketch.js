@@ -294,3 +294,14 @@ rect(20,20,600,40);
   strokeWeight(70); 
   rect(0, 0, 600, 800);
 }  
+
+function mouseMoved() {
+  // Dynamic adjustment of Perlin noise factor according to mouse position
+  let xoff = map(mouseX, 0, width, 0, 1);
+  let yoff = map(mouseY, 0, height, 0, 1);
+  let mouseNoise = noise(xoff, yoff);
+  noiseFactor = map(mouseNoise, 0, 1, 0.05, 0.2);
+
+  // Redrawing the canvas
+  redraw();
+}
