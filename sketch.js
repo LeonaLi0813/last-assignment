@@ -1,28 +1,37 @@
+let scl = 10;//Set the size of each rectangle in the noise
+let zoff = 0;
+
 //Setting up a canvas with similar proportions to the original
 function setup() {
   createCanvas(600, 800);//Ensure that the draw function is run only once
-  noLoop();
+  //Change the for loop in the background so the function noloop is not needed
+  frameRate(30);//Set the frame rate for a smooth animation effect
 }
 
 function draw() {
   // Create a black background
   background(0);
 
-  // Create a rough hand-drawn effect
-  for (let i = 0; i < 8500; i++) {
-    let x = random(width);
-    let y = random(height);
-    let length = noise(x * 0.02, y * 0.02) * 20;
-    let angle = noise(x * 0.02, y * 0.02) * TWO_PI;
-    let x2 = x + cos(angle) * length;
-    let y2 = y + sin(angle) * length;
-   
-    // Set the stroke color with transparency
-    stroke(255, 255, 200, 90); 
-    strokeWeight(1);
-    line(x, y, x2, y2);
+  // Marbling effect
+  let yoff = 0;
+  for (let y = 0; y < height; y += scl) {
+  let xoff = 0;
+  for (let x = 0; x < width; x += scl) {
+    let noiseValue = noise(xoff, yoff, zoff);
+    let bright = map(noiseValue, 0, 0.8, 0, 310);
+    fill(bright,190,255);
+    noStroke();
+    rect(x, y, scl, scl);
+    xoff += 0.1;
+    }
+    yoff += 0.1;
+  }
+  zoff += 0.01; // Increase the z offset frame by frame to make the pattern change dynamically
+
+  drawRects();
   }
 
+  function drawRects() {
 //Use a rectangle to draw the plane below and something that looks like a flowerpot
   fill(92, 173, 123); 
   stroke(0); 
@@ -41,6 +50,11 @@ function draw() {
 
   fill(255, 50, 50); 
   rect(205, 595, 45, 80);
+
+  drawCirclesandLines();
+  }
+
+  function drawCirclesandLines(){
 
 //Here are the circles with the colours split vertically  
 fill(255, 50, 50); 
